@@ -1,0 +1,39 @@
+autoindex on;
+autoindex_exact_size on;
+autoindex_localtime on;
+
+server {
+listen 80;
+listen [::]:80;
+server_name aria2.alphaok.site;
+return 302 https://$server_name$request_uri;
+}
+
+server {
+listen 80;
+listen [::]:80;
+server_name file.alphaok.site;
+return 302 https://$server_name$request_uri;
+}
+
+server {
+listen 443 ssl http2;
+listen [::]:443 ssl http2;
+charset utf-8;
+ssl_certificate         /etc/letsencrypt/live/aria2.alphaok.site/fullchain.pem;
+ssl_certificate_key     /etc/letsencrypt/live/aria2.alphaok.site/privkey.pem;
+index index.html index.htm;
+server_name aria2.alphaok.site;
+root /var/www/html;
+}
+
+server {
+listen 443 ssl http2;
+listen [::]:443 ssl http2;
+charset utf-8;
+ssl_certificate         /etc/letsencrypt/live/file.alphaok.site/fullchain.pem;
+ssl_certificate_key     /etc/letsencrypt/live/file.alphaok.site/privkey.pem;
+index index.html index.htm;
+server_name file.alphaok.site;
+root /data/aria2/downloads;
+}
